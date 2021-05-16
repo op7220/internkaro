@@ -11,7 +11,7 @@ class ApiConstant{
   static final String FORGET_PASSWORD = "forgetPasswordService";
   static final String GET_MAIN_CATEGORIES = "getMainCategories";
   static final String GET_SUBCATEGORY = "getSubCategories";
-  static final String GET_SLIDER_IMAGE = "getSliderImageUrls";
+  static final String GET_SLIDER_IMAGE = "slider";
   static final String GET_MAIN_SUB_CATEGORIES  ="getMainSubCategories";
   static final String GET_CITIES  ="get_locations_icon";
   static final String GET_ONLINE_COURSES  ="get_online_trainings_icons";

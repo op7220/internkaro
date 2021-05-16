@@ -5,6 +5,7 @@ import 'package:internkro/network/rest_api.dart';
 import 'package:internkro/style/constant_values.dart';
 import 'package:internkro/ui/home/model/get_cities_model.dart';
 import 'package:internkro/ui/home/model/get_course_model.dart';
+import 'package:internkro/ui/home/model/get_slider_model.dart';
 import 'package:internkro/ui/job_listting/listing_jobscreen.dart';
 import 'package:internkro/ui/job_listting/model/job_listingmodel.dart';
 import 'package:internkro/ui/location_listing/location_listing.dart';
@@ -19,6 +20,7 @@ class DefaultContainerScreen extends StatefulWidget {
 
 class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
   CitiesModel citiesModel;
+  SliderModel sliderModel;
   CourseModel courseModel;
   JobListingModel jobListingModel;
 
@@ -28,6 +30,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getSliderImageApi();
     getCitiesApi();
     getCoursesApi();
   }
@@ -43,12 +46,21 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
     });
   }
 
-  //coursees api
+  //image slider api
+  void getSliderImageApi() {
+    ApiService.getSlider().then((resp) {
+      if (resp.data != null) {
+        sliderModel = resp;
+        setState(() {});
+      }
+    });
+  }
+
+  //courses api
   void getCoursesApi() {
     ApiService.getCourses().then((resp) {
       if (resp.data != null) {
         courseModel = resp;
-        //data=resp.data;
         setState(() {});
       }
     });
@@ -101,6 +113,26 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                       height: 20,
                     ),
                     CarouselSlider(
+                        items: sliderModel.data.map((e) {
+                          return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 7.0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    image: NetworkImage(e.slider),
+                                    scale: 1.0,
+                                    fit: BoxFit.fill)),
+                          );
+                        }).toList(),
+                        options: CarouselOptions(
+                          height: 170.0,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                          aspectRatio: 16 / 9,
+                        )),
+
+                    /*CarouselSlider(
                       options: CarouselOptions(
                         height: 170.0,
                         autoPlay: true,
@@ -109,10 +141,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                         aspectRatio: 16 / 9,
                       ),
                       items: [
-                        "https://pic3.16pic.com/00/55/42/16pic_5542988_b.jpg",
-                        "https://photo.16pic.com/00/38/88/16pic_3888084_b.jpg",
-                        "https://pic3.16pic.com/00/55/42/16pic_5542988_b.jpg",
-                        "https://photo.16pic.com/00/38/88/16pic_3888084_b.jpg"
+                        sliderModel.data
                       ].map((i) {
                         return Container(
                           margin: EdgeInsets.symmetric(horizontal: 7.0),
@@ -124,7 +153,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                                   fit: BoxFit.fill)),
                         );
                       }).toList(),
-                    ),
+                    ),*/
                     SizedBox(
                       height: 20,
                     ),
@@ -320,7 +349,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                                                 image: NetworkImage(courseModel
                                                     .data
                                                     .programming[index]
-                                                    .icons))),
+                                                    .  icons))),
                                       ),
                                       10.heightBox,
                                       courseModel.data.programming[index]

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:internkro/network/ApiConstants.dart';
 import 'package:internkro/ui/home/model/get_cities_model.dart';
 import 'package:internkro/ui/home/model/get_course_model.dart';
+import 'package:internkro/ui/home/model/get_slider_model.dart';
 import 'package:internkro/ui/job_listting/model/job_listingmodel.dart';
 
 
@@ -18,6 +19,18 @@ class ApiService {
       print("response:${response.body}");
       var responseBody= jsonDecode(response.body);
       return CitiesModel.fromJson(responseBody);
+    } else {
+     throw Exception("Api is not running");
+    }
+  }
+
+  static Future<SliderModel> getSlider() async {
+
+    final response = await http.get(ApiConstant.getBaseURL(ApiConstant.GET_SLIDER_IMAGE));
+    if (response.statusCode == 200) {
+      print("response:${response.body}");
+      var responseBody= jsonDecode(response.body);
+      return SliderModel.fromJson(responseBody);
     } else {
      throw Exception("Api is not running");
     }
