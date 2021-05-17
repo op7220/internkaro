@@ -47,11 +47,23 @@ class WebViewScreen extends StatelessWidget {
 
   displayText() {
     if (webUrl == ApiConstant.CONTACT_US_URL) {
-      return "CONTACT-US".text.black.make();
-    } else if (webUrl == ApiConstant.PRIVACY_POLICY) {
+      return "Contact-Us".text.black.make();
+    }else if (webUrl == ApiConstant.FREQUENTLY_ASKED_QUESTION) {
+      return "FAQ".text.black.make();
+    }
+    else if (webUrl == ApiConstant.TRAINING) {
+      return "Online Training".text.black.make();
+    }
+    else if (webUrl == ApiConstant.JOBS) {
+      return "Freshers Job".text.black.make();
+    }
+    else if (webUrl == ApiConstant.INTERNSHIP) {
+      return "Internship".text.black.make();
+    }
+    else if (webUrl == ApiConstant.PRIVACY_POLICY) {
       return "Privacy Policy".text.black.make();
     } else {
-      return "ABOUT".text.black.make();
+      return "About".text.black.make();
     }
   }
 }

@@ -60,8 +60,9 @@ class _LoginScreenState extends State<LoginScreen> {
           String uMobile = resp.data[0].mobile;
           String uFirstName = resp.data[0].firstName;
           String uLastName = resp.data[0].lastName;
+          logindata.setBool('isLogin', true);
           logindata.setString('email', uEmail);
-          logindata.setString('name', uFirstName + uLastName);
+          logindata.setString('name', uFirstName +" "+ uLastName);
           logindata.setString('mobile', uMobile);
           showToast(resp.msg);
           closeProgressDialog(context);

@@ -52,7 +52,7 @@ class ApiService {
   }
 
   static Future<CourseModel> getCourses() async {
-    final response = await http.get(ApiConstant.getBaseURL(ApiConstant.GET_POPULAR_CATEGORIES));
+    final response = await http.get(ApiConstant.getBaseURL(ApiConstant.GET_COURSE));
     if (response.statusCode == 200) {
       print("response:${response.body}");
       var responseBody= jsonDecode(response.body);
