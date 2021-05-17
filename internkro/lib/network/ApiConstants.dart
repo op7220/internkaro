@@ -6,16 +6,12 @@ class ApiConstant{
 
   static String UPDATE_USER_URL=BASE_URL + "UpdateUser";
 
-  static final String REGISTER = "registrationService";
-  static final String LOGIN = "loginService";
-  static final String FORGET_PASSWORD = "forgetPasswordService";
-  static final String GET_MAIN_CATEGORIES = "getMainCategories";
-  static final String GET_SUBCATEGORY = "getSubCategories";
+  static final String LOGIN = "login";
   static final String GET_SLIDER_IMAGE = "slider";
-  static final String GET_MAIN_SUB_CATEGORIES  ="getMainSubCategories";
   static final String GET_CITIES  ="get_locations_icon";
-  static final String GET_ONLINE_COURSES  ="get_online_trainings_icons";
   static final String GET_JOBLIST  ="get_internship";
+  static final String GET_DETAILS  ="get_internship_pofile";
+  static final String GET_POPULAR_CATEGORIES  ="get_online_trainings";
 
   // flutter build appbundle --target-platform android-arm,android-arm64,android-x64
 

@@ -73,18 +73,18 @@ class MainDrawer extends StatelessWidget {
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>WebViewScreen(webUrl: ApiConstant.CONTACT_US_URL,)));
             },
           ),
-          ListTile(
+       /*   ListTile(
             leading: new Icon(Icons.add),
             title: new Text("Report a Complaint"),
             onTap: () {},
-          ),
-          ListTile(
+          ),*/
+       /*   ListTile(
             leading: new Icon(Icons.add),
             title: new Text("Terms and Conditions"),
             onTap: () {
 
             },
-          ),
+          ),*/
           ListTile(
             leading: new Icon(Icons.add),
             title: new Text("Privacy Policy"),

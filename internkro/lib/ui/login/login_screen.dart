@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:internkro/constant.dart';
+import 'package:internkro/network/rest_api.dart';
+import 'package:internkro/style/color.dart';
+import 'package:internkro/style/strings.dart';
 import 'package:internkro/ui/home/home_screen.dart';
 import 'package:internkro/ui/home/main_drawer.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:internkro/ui/login/model/login_model.dart';
+import 'package:internkro/ui/utils/app_tools.dart';
+import 'package:internkro/ui/utils/network.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,6 +21,59 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  LoginModel loginModel;
+  bool connectionResult = false;
+  bool hidePassword = true;
+  SharedPreferences logindata;
+
+  @override
+  void initState() {
+    super.initState();
+    pref();
+    _checkConnection();
+  }
+
+  void pref() async {
+    logindata = await SharedPreferences.getInstance();
+  }
+
+  _checkConnection() async {
+    connectionResult = await NetworkConnection().checkInternetConnection();
+    print("==>${connectionResult}");
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void callLoginApi(email, password) {
+    _checkConnection();
+    if (connectionResult) {
+      displayProgressDialog(context);
+      ApiService.login(email, password).then((resp) {
+        if (resp.data != null) {
+          String uEmail = resp.data[0].email;
+          String uMobile = resp.data[0].mobile;
+          String uFirstName = resp.data[0].firstName;
+          String uLastName = resp.data[0].lastName;
+          logindata.setString('email', uEmail);
+          logindata.setString('name', uFirstName + uLastName);
+          logindata.setString('mobile', uMobile);
+          showToast(resp.msg);
+          closeProgressDialog(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => HomeScreen()));
+          setState(() {});
+        }
+      });
+    } else {
+      showToast(noConnection);
+    }
+  }
 
   String validatePassword(String value) {
     if (value.isEmpty) {
@@ -96,11 +157,22 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               padding: EdgeInsets.all(15),
               child: TextFormField(
-                  obscureText: true,
+                  obscureText: hidePassword,
                   controller: passwordController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            hidePassword = !hidePassword;
+                          });
+                        },
+                        color: dimBlack,
+                        icon: Icon(hidePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                      )
                   ),
                   validator: MultiValidator([
                     RequiredValidator(errorText: "* Required"),
@@ -132,12 +204,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text('Login'),
                   onPressed: () {
                     if (formkey.currentState.validate()) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => HomeScreen()));
-                      print("Validated");
-                    } else {
-                      print("Not Validated");
-                    }
+                      callLoginApi(emailController.text.toString(),
+                          passwordController.text.toString());
+                    } else {}
                   },
                 )),
             Container(

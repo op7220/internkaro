@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:internkro/network/rest_api.dart';
 import 'package:internkro/style/constant_values.dart';
+import 'package:internkro/ui/detailscreen/details_screen.dart';
 import 'package:internkro/ui/home/main_drawer.dart';
 import 'package:internkro/ui/job_listting/model/job_listingmodel.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -18,7 +19,6 @@ class _ListingJobScreenState extends State<ListingJobScreen> {
   
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     callJobListingApi();
   }
@@ -36,20 +36,20 @@ class _ListingJobScreenState extends State<ListingJobScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "InternKro",
+          "Internship",
           style: TextStyle(color: Colors.black, fontSize: 16),
         ),
         elevation: 0,
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      drawer: MainDrawer(),
       body: jobListingModel==null? Center(child: CircularProgressIndicator(),):ListView.builder(
           itemCount: jobListingModel.data.length,
           itemBuilder: (context,index){
           return Padding(
             padding: const EdgeInsets.all(2.0),
             child: Container(
+
               padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -101,7 +101,12 @@ class _ListingJobScreenState extends State<ListingJobScreen> {
                   ),
                 ],
               ),
-            ).card.make(),
+
+            ).card.make().onTap(() {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => DetailsScreen(
+                  detailCategory: jobListingModel.data[index].comanyDetailsUrl)));
+            }),
           );
       }),
     );

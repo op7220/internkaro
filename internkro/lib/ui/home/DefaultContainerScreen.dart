@@ -70,7 +70,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
   Widget build(BuildContext context) {
     return new Scaffold(
         backgroundColor: Colors.white,
-        body: citiesModel == null && courseModel == null
+        body: citiesModel == null && courseModel == null && sliderModel == null
             ? Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 child: Column(
@@ -92,7 +92,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                             child: TextField(
                               textAlign: TextAlign.left,
                               decoration: InputDecoration(
-                                hintText: "Search",
+                                hintText: "What are you looking for?",
                                 contentPadding: EdgeInsets.all(20.0),
                                 hintStyle: TextStyle(
                                   color: Colors.black.withAlpha(120),
@@ -102,9 +102,12 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                               onChanged: (String keyword) {},
                             ),
                           ),
-                          Icon(
-                            Icons.search,
-                            color: Colors.black.withAlpha(120),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.black.withAlpha(120),
+                            ),
                           )
                         ],
                       ),
@@ -131,29 +134,6 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                           autoPlayAnimationDuration: Duration(milliseconds: 800),
                           aspectRatio: 16 / 9,
                         )),
-
-                    /*CarouselSlider(
-                      options: CarouselOptions(
-                        height: 170.0,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 3),
-                        autoPlayAnimationDuration: Duration(milliseconds: 800),
-                        aspectRatio: 16 / 9,
-                      ),
-                      items: [
-                        sliderModel.data
-                      ].map((i) {
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 7.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                  image: NetworkImage(i),
-                                  scale: 1.0,
-                                  fit: BoxFit.fill)),
-                        );
-                      }).toList(),
-                    ),*/
                     SizedBox(
                       height: 20,
                     ),
@@ -224,15 +204,15 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    Container(
+                  /*  Container(
                       alignment: Alignment.center,
                       child: Text(
                         'POPULAR CATEGORIES',
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.normal),
                       ),
-                    ),
-                    15.heightBox,
+                    ),*/
+                  /*  15.heightBox,
                     Container(
                       height: d_145,
                       width: MediaQuery.of(context).size.width,
@@ -270,9 +250,9 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                                   )),
                             );
                           }),
-                    ),
-                    10.heightBox,
-                    Row(
+                    ),*/
+                    //10.heightBox,
+                 /*   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
@@ -291,7 +271,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                           size: 15,
                         )
                       ],
-                    ),
+                    ),*/
                     20.heightBox,
                     Container(
                       alignment: Alignment.center,
