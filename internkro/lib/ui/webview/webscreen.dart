@@ -14,7 +14,8 @@ class WebViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () {
-          return Navigator.pushReplacementNamed(context, '/homescreen');
+          //return Navigator.popUntil(context,true);
+          return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
         },
         child: SafeArea(
             child: Scaffold(
@@ -23,8 +24,8 @@ class WebViewScreen extends StatelessWidget {
             leading: new FlatButton(
               child: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                //Navigator.pop(context);
               },
             ),
             title: displayText(),

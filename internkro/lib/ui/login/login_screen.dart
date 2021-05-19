@@ -54,21 +54,25 @@ class _LoginScreenState extends State<LoginScreen> {
     _checkConnection();
     if (connectionResult) {
       displayProgressDialog(context);
-      ApiService.login(email, password).then((resp) {
-        if (resp.data != null) {
-          String uEmail = resp.data[0].email;
-          String uMobile = resp.data[0].mobile;
-          String uFirstName = resp.data[0].firstName;
-          String uLastName = resp.data[0].lastName;
-          logindata.setBool('isLogin', true);
-          logindata.setString('email', uEmail);
-          logindata.setString('name', uFirstName +" "+ uLastName);
-          logindata.setString('mobile', uMobile);
-          showToast(resp.msg);
-          closeProgressDialog(context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => HomeScreen()));
-          setState(() {});
+      ApiService.login(context,email, password).then((resp) {
+        try {
+          if (resp.data != null) {
+                    String uEmail = resp.data[0].email;
+                    String uMobile = resp.data[0].mobile;
+                    String uFirstName = resp.data[0].firstName;
+                    String uLastName = resp.data[0].lastName;
+                    logindata.setBool('isLogin', true);
+                    logindata.setString('email', uEmail);
+                    logindata.setString('name', uFirstName +" "+ uLastName);
+                    logindata.setString('mobile', uMobile);
+                    showToast(resp.msg);
+                    closeProgressDialog(context);
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                    setState(() {});
+                  }
+        } catch (e) {
+          print(e);
         }
       });
     } else {

@@ -37,11 +37,15 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
 
   //cities api
   void getCitiesApi() {
-    ApiService.getCities().then((resp) {
-      if (resp.data != null) {
-        citiesModel = resp;
-        //data=resp.data;
-        setState(() {});
+    ApiService.getCities().then((resp) async {
+      try {
+        if (resp.data != null) {
+          citiesModel = resp;
+          //data=resp.data;
+          setState(() {});
+        }
+      } catch (e) {
+        print(e);
       }
     });
   }
@@ -49,9 +53,13 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
   //image slider api
   void getSliderImageApi() {
     ApiService.getSlider().then((resp) {
-      if (resp.data != null) {
-        sliderModel = resp;
-        setState(() {});
+      try {
+        if (resp.data != null) {
+          sliderModel = resp;
+          setState(() {});
+        }
+      } catch (e) {
+        print(e);
       }
     });
   }
@@ -59,9 +67,13 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
   //courses api
   void getCoursesApi() {
     ApiService.getCourses().then((resp) {
-      if (resp.data != null) {
-        courseModel = resp;
-        setState(() {});
+      try {
+        if (resp.data != null) {
+          courseModel = resp;
+          setState(() {});
+        }
+      } catch (e) {
+        print(e);
       }
     });
   }
@@ -116,22 +128,23 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                       height: 20,
                     ),
                     CarouselSlider(
-                        items: sliderModel.data.map((e) {
-                          return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 7.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                    image: NetworkImage(e.slider),
-                                    scale: 1.0,
-                                    fit: BoxFit.fill)),
-                          );
+                        items:sliderModel.data==null?0: sliderModel.data.map((e) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 7.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                      image: NetworkImage(e.slider),
+                                      scale: 1.0,
+                                      fit: BoxFit.fill)),
+                            );
                         }).toList(),
                         options: CarouselOptions(
                           height: 170.0,
                           autoPlay: true,
                           autoPlayInterval: Duration(seconds: 3),
-                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 800),
                           aspectRatio: 16 / 9,
                         )),
                     SizedBox(
@@ -163,7 +176,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                       height: d_145,
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
-                          itemCount: citiesModel.data.length,
+                          itemCount: citiesModel.data.length == null ? 0 : citiesModel.data.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, position) {
                             return Padding(
@@ -195,8 +208,11 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                                     ],
                                   )).onTap(() {
                                 Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => LocationListing(
-                                    subcategory:  citiesModel.data[position].locationName)));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LocationListing(
+                                            subcategory: citiesModel
+                                                .data[position].locationName)));
                               }),
                             );
                           }),
@@ -204,7 +220,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                  /*  Container(
+                    /*  Container(
                       alignment: Alignment.center,
                       child: Text(
                         'POPULAR CATEGORIES',
@@ -212,7 +228,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                             fontSize: 14, fontWeight: FontWeight.normal),
                       ),
                     ),*/
-                  /*  15.heightBox,
+                    /*  15.heightBox,
                     Container(
                       height: d_145,
                       width: MediaQuery.of(context).size.width,
@@ -252,7 +268,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                           }),
                     ),*/
                     //10.heightBox,
-                 /*   Row(
+                    /*   Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
@@ -300,7 +316,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                         child: GridView.builder(
                           shrinkWrap: true,
                           physics: const ClampingScrollPhysics(),
-                          itemCount: courseModel.data.programming.length,
+                          itemCount: courseModel.data.programming.length == null ? 0 : courseModel.data.programming.length,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -329,7 +345,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                                                 image: NetworkImage(courseModel
                                                     .data
                                                     .programming[index]
-                                                    .  icons))),
+                                                    .icons))),
                                       ),
                                       10.heightBox,
                                       courseModel.data.programming[index]
@@ -338,8 +354,13 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                                     ],
                                   )).onTap(() {
                                 Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => ListingJobScreen(
-                                              subcategory: courseModel.data.programming[index].subcategory)));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ListingJobScreen(
+                                            subcategory: courseModel
+                                                .data
+                                                .programming[index]
+                                                .subcategory)));
                               }),
                             );
                           },
