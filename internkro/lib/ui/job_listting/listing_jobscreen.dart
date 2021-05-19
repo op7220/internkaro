@@ -26,6 +26,7 @@ class _ListingJobScreenState extends State<ListingJobScreen> {
   void callJobListingApi(){
     ApiService.getJobList(widget.subcategory)
         .then((value) {
+          print("=========>${value}");
       setState(() {
         jobListingModel = value;
       });

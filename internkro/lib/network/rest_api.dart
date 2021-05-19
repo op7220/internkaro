@@ -89,16 +89,21 @@ class ApiService {
   }
 
   static Future<JobListingModel> getLocationList(String selectedCity) async {
-    final response =
-        await http.post(ApiConstant.getBaseURL(ApiConstant.GET_JOBLIST), body: {
+    final response = await http.post(ApiConstant.getBaseURL(ApiConstant.GET_JOBLIST), body: {
       "location_url": selectedCity,
     });
-    if (response.statusCode == 200) {
-      print("response:${response.body}");
-      var responseBody = jsonDecode(response.body);
-      return JobListingModel.fromJson(responseBody);
-    } else {
-      throw Exception("Api is not running");
+    try {
+      if (response.statusCode == 200) {
+            print("response:${response.body}");
+            var responseBody = jsonDecode(response.body);
+            return JobListingModel.fromJson(responseBody);
+          } else {
+            throw Exception("Api is not running");
+          }
+    }on FormatException {
+      showToast("Format Exception");
+    } catch (e) {
+      print(e);
     }
   }
 
