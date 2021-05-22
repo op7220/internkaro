@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:internkro/constant.dart';
 import 'package:internkro/network/ApiConstants.dart';
 import 'package:internkro/style/color.dart';
@@ -14,7 +15,7 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   bool isLoggedin=false;
   SharedPreferences logindata;
-
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   String username;
 
   @override
@@ -40,8 +41,7 @@ class _MainDrawerState extends State<MainDrawer> {
 
   _logOut() async {
     await logindata.clear();
- //   facebookLogin.logOut();
-   // _googleSignIn.signOut();
+    _googleSignIn.signOut();
     setState(() {
       isLoggedin=false;
       username="LogIn";

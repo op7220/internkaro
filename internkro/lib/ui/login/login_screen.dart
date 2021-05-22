@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:internkro/constant.dart';
 import 'package:internkro/network/rest_api.dart';
 import 'package:internkro/style/color.dart';
@@ -25,6 +26,12 @@ class _LoginScreenState extends State<LoginScreen> {
   bool connectionResult = false;
   bool hidePassword = true;
   SharedPreferences logindata;
+  bool _isGoogleLoggedIn = false;
+  String email = "";
+  String token = "";
+  String name = "";
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
   @override
   void initState() {
@@ -48,6 +55,42 @@ class _LoginScreenState extends State<LoginScreen> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  _loginGoogle() async {
+    displayProgressDialog(context);
+    try {
+      await _googleSignIn.signIn().then((result) {
+        result.authentication.then((googleKey) {
+          print(googleKey.accessToken);
+          print(googleKey.idToken);
+          print(_googleSignIn.currentUser.displayName);
+          name = _googleSignIn.currentUser.displayName;
+          email = _googleSignIn.currentUser.email;
+          token = googleKey.accessToken;
+          logindata.setBool('isLogin', true);
+          logindata.setString('email', email);
+          logindata.setString('name', name);
+          logindata.setString('mobile', "");
+          showToast("Login Successfully");
+          closeProgressDialog(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => HomeScreen()));
+          setState(() {});
+
+        }).catchError((err) {
+          print('inner error');
+        });
+      }).catchError((err) {
+        print('error occured');
+      });
+
+      setState(() {
+        _isGoogleLoggedIn = true;
+      });
+    } catch (err) {
+      print(err);
+    }
   }
 
   void callLoginApi(email, password) {
@@ -119,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: RaisedButton.icon(
                 onPressed: () {
-                  print('Button Clicked.');
+                  _loginGoogle();
                 },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4.0))),

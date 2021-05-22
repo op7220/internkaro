@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "374273299561",
+    "project_id": "internkro",
+    "storage_bucket": "internkro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374273299561:android:72b74922bcb6d395f7bef8",
+        "android_client_info": {
+          "package_name": "com.example.internkro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374273299561-bnt8aabhgkrdabgkjsuif6h3n16c1tcn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.internkro",
+            "certificate_hash": "1ff5cc941c5988e80dfc60c0d54612350fd1ad68"
+          }
+        },
+        {
+          "client_id": "374273299561-oi1bv6htn0dg86il8pmtonsvblg00o21.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR5f9GGqV2cMAa7EfhBqBhm9OaetnobXw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374273299561-oi1bv6htn0dg86il8pmtonsvblg00o21.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

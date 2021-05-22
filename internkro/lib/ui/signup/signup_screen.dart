@@ -35,7 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         key: formkey,
         child: ListView(
           children: [
-            Container(
+            /*Container(
               height: 60,
               padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: RaisedButton.icon(
@@ -55,18 +55,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 color: Colors.white,
               ),
-            ),
+            ),*/
             SizedBox(
               height: 15,
             ),
-            Center(
-                child: Text(
-              'OR SIGNUP USING EMAIL',
-              style: TextStyle(color: Colors.black54),
-            )),
-            SizedBox(
-              height: 15,
-            ),
+
             Container(
               padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: TextFormField(
