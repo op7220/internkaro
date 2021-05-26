@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:internkro/network/rest_api.dart';
+import 'package:internkro/style/strings.dart';
 import 'package:internkro/ui/utils/app_tools.dart';
+import 'package:internkro/ui/utils/network.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -11,6 +13,28 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  bool connectionResult = false;
+
+  void forgotPassword(emailId) {
+      displayProgressDialog(context);
+      ApiService.forgotPass(context, emailId).then((resp) {
+        try {
+          if (resp.data != null) {
+            showToast(resp.msg);
+            closeProgressDialog(context);
+          }
+        } catch (e) {
+          print(e);
+        }
+      });
+      
+  }
+
+  _checkConnection() async {
+    connectionResult = await NetworkConnection().checkInternetConnection();
+    print("==>${connectionResult}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,18 +89,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   color: Colors.blue,
                   child: Text('Submit'),
                   onPressed: () {
-                    displayProgressDialog(context);
                     if (formkey.currentState.validate()) {
-                      ApiService.forgotPass(context,emailController.text).then((resp) {
-                        try {
-                          if (resp.data != null) {
-                            showToast(resp.msg);
-                            closeProgressDialog(context);
-                          }
-                        } catch (e) {
-                          print(e);
-                        }
-                      });
+                      forgotPassword(emailController.text.toString());
                     } else {
                       print("Not Validated");
                     }
