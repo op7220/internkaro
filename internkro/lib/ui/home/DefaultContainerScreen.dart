@@ -127,7 +127,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    CarouselSlider(
+                    sliderModel.data!=null?CarouselSlider(
                         items:sliderModel.data==null?0: sliderModel.data.map((e) {
                             return Container(
                               margin: EdgeInsets.symmetric(horizontal: 7.0),
@@ -146,7 +146,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                           autoPlayAnimationDuration:
                               Duration(milliseconds: 800),
                           aspectRatio: 16 / 9,
-                        )),
+                        )):Container(),
                     SizedBox(
                       height: 20,
                     ),
@@ -172,7 +172,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                       ),
                     ),
                     15.heightBox,
-                    Container(
+                    citiesModel.data!=null? Container(
                       height: d_145,
                       width: MediaQuery.of(context).size.width,
                       child: ListView.builder(
@@ -216,7 +216,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                               }),
                             );
                           }),
-                    ),
+                    ):Container(),
                     SizedBox(
                       height: 15,
                     ),
@@ -309,7 +309,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                       ),
                     ),
                     10.heightBox,
-                    Container(
+                    courseModel.data!=null && courseModel.data.programming.isNotEmpty?Container(
                         padding: EdgeInsets.all(12.0),
                         // height:200,
                         // width: MediaQuery.of(context).size.width,
@@ -364,7 +364,7 @@ class _DefaultContainerScreenState extends State<DefaultContainerScreen> {
                               }),
                             );
                           },
-                        )),
+                        )):Container(),
                   ],
                 ),
               ));

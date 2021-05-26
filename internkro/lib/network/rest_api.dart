@@ -52,7 +52,7 @@ class ApiService {
       print("response:${response.body}");
       responseBody = jsonDecode(response.body);
       print(responseBody['status']);
-      if (responseBody['status'] == 200) {
+      if (responseBody['status'] == "200") {
         return LoginModel.fromJson(responseBody);
       } else {
         closeProgressDialog(context);

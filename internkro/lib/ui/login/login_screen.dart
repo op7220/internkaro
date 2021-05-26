@@ -110,9 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     logindata.setString('mobile', uMobile);
                     showToast(resp.msg);
                     closeProgressDialog(context);
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context, MaterialPageRoute(builder: (_) => HomeScreen()));
-                    setState(() {});
                   }
         } catch (e) {
           print(e);
