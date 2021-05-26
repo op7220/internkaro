@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:internkro/network/rest_api.dart';
+import 'package:internkro/ui/utils/app_tools.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -63,8 +65,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   color: Colors.blue,
                   child: Text('Submit'),
                   onPressed: () {
+                    displayProgressDialog(context);
                     if (formkey.currentState.validate()) {
-                      print("Validated");
+                      ApiService.forgotPass(context,emailController.text).then((resp) {
+                        try {
+                          if (resp.data != null) {
+                            showToast(resp.msg);
+                            closeProgressDialog(context);
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+                      });
                     } else {
                       print("Not Validated");
                     }

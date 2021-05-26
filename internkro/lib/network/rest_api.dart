@@ -4,14 +4,42 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:internkro/network/ApiConstants.dart';
 import 'package:internkro/ui/detailscreen/model/details_screen_model.dart';
+import 'package:internkro/ui/forgotpass/model/forgot_pass_model.dart';
 import 'package:internkro/ui/home/model/get_cities_model.dart';
 import 'package:internkro/ui/home/model/get_course_model.dart';
 import 'package:internkro/ui/home/model/get_slider_model.dart';
 import 'package:internkro/ui/job_listting/model/job_listingmodel.dart';
 import 'package:internkro/ui/login/model/login_model.dart';
+import 'package:internkro/ui/signup/model/signup_model.dart';
 import 'package:internkro/ui/utils/app_tools.dart';
 
 class ApiService {
+
+  static Future<SignupModel> signup(BuildContext context,String firstName,String lastName,String mobileNo,String email, String password) async {
+    var responseBody;
+    final response = await http.post(Uri.parse(ApiConstant.getBaseURL(ApiConstant.SIGNUP)), body: {
+      "key": "4259d2281a1b3a3ffc46480aacdca0cf",
+      'f_name':firstName,
+      'l_name':lastName,
+      'mobile':mobileNo,
+      "email": email,
+      "password": password,
+    });
+    if (response.statusCode == 200) {
+      print("response:${response.body}");
+      responseBody = jsonDecode(response.body);
+      print(responseBody['status']);
+      if (responseBody['status'] == "200") {
+        return SignupModel.fromJson(responseBody);
+      } else {
+        closeProgressDialog(context);
+        showToast(responseBody['msg']);
+        return null;
+      }
+    } else {
+      throw Exception("Api is not running");
+    }
+  }
 
   static Future<LoginModel> login(BuildContext context,String email, String password) async {
     var responseBody;
@@ -35,6 +63,29 @@ class ApiService {
       throw Exception("Api is not running");
     }
   }
+
+  static Future<ForgotPassModel> forgotPass(BuildContext context,String email) async {
+    var responseBody;
+    final response = await http.post(Uri.parse(ApiConstant.getBaseURL(ApiConstant.FORGOT_PASS)), body: {
+      "key": "4259d2281a1b3a3ffc46480aacdca0cf",
+      "email": email,
+    });
+    if (response.statusCode == 200) {
+      print("response:${response.body}");
+      responseBody = jsonDecode(response.body);
+      print(responseBody['status']);
+      if (responseBody['status'] == "200") {
+        return ForgotPassModel.fromJson(responseBody);
+      } else {
+        closeProgressDialog(context);
+        showToast(responseBody['msg']);
+        return null;
+      }
+    } else {
+      throw Exception("Api is not running");
+    }
+  }
+
 
   static Future<CitiesModel> getCities() async {
     var responseBody;

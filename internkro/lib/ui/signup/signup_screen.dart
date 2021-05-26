@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:internkro/constant.dart';
+import 'package:internkro/network/rest_api.dart';
+import 'package:internkro/style/strings.dart';
 import 'package:internkro/ui/home/main_drawer.dart';
 import 'package:internkro/ui/login/login_screen.dart';
+import 'package:internkro/ui/utils/app_tools.dart';
+import 'package:internkro/ui/utils/network.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -15,6 +19,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController lnameController = TextEditingController();
   TextEditingController fnameController = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  bool connectionResult = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkConnection();
+  }
+  _checkConnection() async {
+    connectionResult = await NetworkConnection().checkInternetConnection();
+    print("==>${connectionResult}");
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,9 +152,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Text('Signup'),
                   onPressed: () {
                     if (formkey.currentState.validate()) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => LoginScreen()));
-                      print("Validated");
+                      _checkConnection();
+                      if (connectionResult) {
+                        displayProgressDialog(context);
+                        ApiService.signup(context,fnameController.text,lnameController.text,"9266266262",emailController.text,passwordController.text).then((resp) {
+                          try {
+                            if (resp.data != null) {
+                              showToast(resp.msg);
+                              closeProgressDialog(context);
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                              print("Validated");
+                            }
+                          } catch (e) {
+                            print(e);
+                          }
+                        });
+                      } else {
+                        showToast(noConnection);
+                      }
+
                     } else {
                       print("Not Validated");
                     }
